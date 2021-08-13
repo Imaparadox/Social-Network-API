@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 
 const ThoughtSchema = new Schema({
     thoughtText: {
@@ -18,9 +18,36 @@ const ThoughtSchema = new Schema({
         required: true
     },
     // Nested reactions in an array
-    reactions: [reactionSchema]
+    reactions: [ReactionSchema]
+    // Child Schema for ReactionSchema
+    // child: ReactionSchema,
+    // children: [ReactionSchema]
 });
 
+//ReactionSchema
+const ReactionSchema = new Schema({
+    reactionId: {
+        types: Types.ObjectId,
+        default: new Types.ObjectId
+    },
+    reactionBody: {
+        type: String,
+        required: true,
+        maxLength: 280
+    },
+    username: {
+        type: String,
+        required: true
+    },
+    // Create function for dateFormatter???
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        get: createdAtVal => dateFormatter(createdAtVal)
+    }
+});
+
+//Virtual for reaction count
 ThoughtSchema.virtual('reactionCount').get(function () {
     return this.reactions.length;
 });
