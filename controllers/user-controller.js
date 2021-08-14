@@ -1,4 +1,5 @@
 const { User, Thought } = require('../models');
+const { db } = require('../models/User');
 
 const userController = {
   //Get all users
@@ -27,7 +28,44 @@ const userController = {
     User.create(req.body)
       .then(dbUserData => res.json(dbUserData))
       .catch(err => res.status(500).json(err))
+  },
+  updateUser(req, res) {
+    User.findOneAndUpdate({ _id: req.params.id }, { $set: req.body })
+      .then(dbUserData => {
+        if (!dbUserData) {
+          return res.status(404).json({ message: 'No user with this id!' });
+        }
+        res.json(dbUserData);
+      })
+      .catch(err => res.json(err));
+  },
+  //Delete later
+  deleteUser(req, res) {
+    User.findOneAndDelete({ _id: req.params.id })
+      .then(dbUserData => res.json(dbUserData))
+      .catch(err => res.json(err));
+  },
+
+  //addFriend
+  addNewFriend(req, res) {
+    //addToSet mongoose property
+    User.findOneAndUpdate({ _id: req.params.id }, { $addToSet: { friends: req.params.friendId } }, { new: true })
+      .then(dbUserData => {
+        if (!dbUserData) {
+          return res.status(404).json({ message: 'No friend with this id!' });
+        }
+        res.json(dbUserData);
+      })
+      .catch(err => res.json(err));
+  },
+  //removeFriend
+  removeFriend(req, res) {
+    User.findOneAndUpdate({ _id: req.params.id }, { $pull: { friends: req.params.friendId } })
+      .then(dbUserData => res.json(dbUserData))
+      .catch(err => res.json(err));
   }
 }
+
+
 
 module.exports = userController;
