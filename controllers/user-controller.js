@@ -24,11 +24,13 @@ const userController = {
         res.sendStatus(400).json(err);
       });
   },
+  //Create new user
   createUser(req, res) {
     User.create(req.body)
-      .then(dbUserData => res.json(dbUserData))
-      .catch(err => res.status(500).json(err))
+    .then(dbUserData => res.json(dbUserData))
+    .catch(err => res.status(500).json(err))
   },
+  //Update user
   updateUser(req, res) {
     User.findOneAndUpdate({ _id: req.params.id }, { $set: req.body })
       .then(dbUserData => {
@@ -39,14 +41,14 @@ const userController = {
       })
       .catch(err => res.json(err));
   },
-  //Delete later
+  //Delete user
   deleteUser(req, res) {
     User.findOneAndDelete({ _id: req.params.id })
       .then(dbUserData => res.json(dbUserData))
       .catch(err => res.json(err));
   },
 
-  //addFriend
+  //Add friend
   addNewFriend(req, res) {
     //addToSet mongoose property
     User.findOneAndUpdate({ _id: req.params.id }, { $addToSet: { friends: req.params.friendId } }, { new: true })
@@ -58,14 +60,12 @@ const userController = {
       })
       .catch(err => res.json(err));
   },
-  //removeFriend
+  //Remove friend
   removeFriend(req, res) {
     User.findOneAndUpdate({ _id: req.params.id }, { $pull: { friends: req.params.friendId } })
       .then(dbUserData => res.json(dbUserData))
       .catch(err => res.json(err));
   }
 }
-
-
 
 module.exports = userController;

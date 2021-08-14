@@ -11,7 +11,15 @@ const thoughtController = {
                 res.sendStatus(400).json(err)
             });
     },
-
+    //Get thought by id
+    getThoughtById(req, res) {
+        Thought.findOne({ _id: req.params.id })
+            .then(dbThoughtData => res.json(dbThoughtData))
+            .catch(err => {
+                console.log(err);
+                res.sendStatus(400).json(err);
+            });
+    },
     //Post thought
     addThought(req, res) {
         console.log(req.body);
