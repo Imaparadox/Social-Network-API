@@ -1,4 +1,4 @@
-# Social-Network-API
+# Social-Network-API-SMM
 
 This project is a homework assignment for Rutgers Coding Bootcamp.
 

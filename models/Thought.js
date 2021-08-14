@@ -19,9 +19,6 @@ const ThoughtSchema = new Schema({
     },
     // Nested reactions in an array
     reactions: [ReactionSchema]
-    // Child Schema for ReactionSchema
-    // child: ReactionSchema,
-    // children: [ReactionSchema]
 });
 
 //ReactionSchema
