@@ -13,12 +13,6 @@ const ReactionSchema = new Schema({
     userName: {
         type: String,
         required: true
-    },
-    // Create function for dateFormatter???
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        get: createdAtVal => dateFormatter(createdAtVal)
     }
 });
 

@@ -48,31 +48,23 @@ const thoughtController = {
     },
     //delete route - only delete thought, not user. Delete thought from user
     deleteThought(req, res) {
-        Thought.findOneAndDelete({ _id: req.params.body })
+        Thought.findOneAndDelete({ _id: req.params.thoughtId })
             .then(dbThoughtData => res.json(dbThoughtData))
             .catch(err => res.json(err));
-        // Thought.findOneAndDelete({ _id: params.id })
-        // .then(dbThoughtData => {
-        //     if (!dbThoughtData) {
-        //         res.status(404).json({ message: 'No thought found with this id!' });
-        //         return;
-        //     }
-        //     //Deletes within User model 
-        //     User.findOneAndUpdate({ username: dbThoughtData.username }, { $pull: { thoughts: params.id } })
-        //     .then(() => {
-        //         res.json({ message: 'Successfully deleted thought!' });
-        //     })
-        //     .catch(err => res.status(500).json(err));
-        // })
-        // .catch(err => res.status(500).json(err));
-    }
-//Create reaction
-    // createReaction(req, res) {
-    //     Thoughts.
-    // }
+    },
+    //Create reaction
+    addReaction(req, res) {
+        Thought.findOneAndUpdate({ _id: req.params.thoughtId }, { $addToSet: { reactions: req.body } }, { new: true })
+            .then(dbThoughtData => res.json(dbThoughtData))
+            .catch(err => res.status(500).json(err))
+    },
     //Delete reaction
-
-
+    deleteReaction(req, res) {
+        // to pull and remove a reaction by the reaction's reactionId value
+        Thought.findOneAndUpdate({ _id: req.params.thoughtId }, { $pull: { reactions: {reactionId: req.params.reactionId} } })
+            .then(dbThoughtData => res.json(dbThoughtData))
+            .catch(err => res.json(err));
+    }
 };
 
 module.exports = thoughtController;
