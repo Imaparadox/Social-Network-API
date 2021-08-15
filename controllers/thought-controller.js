@@ -13,7 +13,7 @@ const thoughtController = {
     },
     //Get thought by id
     getThoughtById(req, res) {
-        Thought.findOne({ _id: req.params.id })
+        Thought.findOne({ _id: req.params.thoughtId })
             .then(dbThoughtData => res.json(dbThoughtData))
             .catch(err => {
                 console.log(err);
@@ -37,12 +37,12 @@ const thoughtController = {
     },
     //Update Thought
     updateThought(req, res) {
-        Thought.findOneAndUpdate({ _id: req.params.id }, { $push: req.body.thoughtId }, { new: true })
+        Thought.findOneAndUpdate({ _id: req.params.thoughtId }, { $set: req.body }, { new: true })
             .then(dbThoughtData => {
                 if (!dbThoughtData) {
                     return res.status(404).json({ message: 'No thought with this id!' });
                 }
-                res.json(dbUserData);
+                res.json(dbThoughtData);
             })
             .catch(err => res.json(err));
     },
