@@ -6,7 +6,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/social-network'
     useCreateIndex: true
 });
 
-// Use this to log mongo queries being executed!
+// Logs mongo queries
 mongoose.set('debug', true);
 
 module.exports = mongoose.connection

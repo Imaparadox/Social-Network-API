@@ -51,7 +51,7 @@ const userController = {
   //Add friend
   addNewFriend(req, res) {
     //addToSet mongoose property
-    User.findOneAndUpdate({ _id: req.params.id }, { $addToSet: { friends: req.params.friendId } }, { new: true })
+    User.create({ _id: req.params.id }, { $addToSet: { friends: req.params.friendId } }, { new: true })
       .then(dbUserData => {
         if (!dbUserData) {
           return res.status(404).json({ message: 'No friend with this id!' });
